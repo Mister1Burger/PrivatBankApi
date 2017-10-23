@@ -16,9 +16,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import home.rxjavatest.rest.Manager;
+import home.rxjavatest.rest.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
@@ -39,6 +45,21 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         initCache();
         isAccessPermissions();
+
+        Manager manager = new Manager();
+
+        manager.getPayService().paySale()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(isracardResponse -> {
+                        },
+                        throwable -> {
+                        }
+                );
+
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        Response response = gson.fromJson("", Response.class);
     }
 
     public void isAccessPermissions() {
@@ -86,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        Log.d("TAG","onNewIntent");
+        Log.d("TAG", "onNewIntent");
     }
 
 

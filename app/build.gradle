@@ -64,9 +64,21 @@ dependencies {
     //paint road map
     compile 'com.github.jd-alexander:library:1.1.0'
 
+    // Retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+
+    // RxAndroid && RxJava
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'io.reactivex.rxjava2:rxjava:2.0.1'
     compile 'com.patloew.rxlocation:rxlocation:1.0.3'
+
+    // lombok
+    provided "org.projectlombok:lombok:1.16.10"
+    annotationProcessor "org.projectlombok:lombok:1.16.10"
 
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
