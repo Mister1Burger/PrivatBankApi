@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @SuppressWarnings("WeakerAccess")
 public class Manager {
 
-    private static final String REAL_URL = "https://ng.paymeservice.com/";
+    private static final String REAL_URL = "https://api.privatbank.ua";
 
     private Retrofit retrofitInstance;
 

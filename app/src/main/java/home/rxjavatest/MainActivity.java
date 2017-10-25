@@ -22,7 +22,7 @@ import com.google.gson.GsonBuilder;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import home.rxjavatest.rest.Manager;
-import home.rxjavatest.rest.Response;
+import home.rxjavatest.rest.PBBransches;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -43,15 +43,15 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        initCache();
-        isAccessPermissions();
+//        initCache();
+//        isAccessPermissions();
 
         Manager manager = new Manager();
 
-        manager.getPayService().paySale()
+        manager.getPayService().pboffice("Тл", "Днепр")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(isracardResponse -> {
+                .subscribe(pbBransches -> {Log.d("TAG", pbBransches.toString());
                         },
                         throwable -> {
                         }
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
-        Response response = gson.fromJson("", Response.class);
+        PBBransches response = gson.fromJson("", PBBransches.class);
     }
 
     public void isAccessPermissions() {

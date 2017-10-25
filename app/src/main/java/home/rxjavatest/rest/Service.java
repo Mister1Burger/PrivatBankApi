@@ -2,6 +2,7 @@ package home.rxjavatest.rest;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -17,18 +18,14 @@ public class Service {
         this.api = api;
     }
 
-    public Observable<Response> paySale() {
+    public void getAddress(){
 
-        Map<String, String> request = new HashMap<>();
-//        request.put("buyer_email", isracardRequest.getBuyerEmail());
-//        request.put("buyer_name", isracardRequest.getBuyerName());
-//        request.put("payme_sale_id", isracardRequest.getPaymeSaleId());
-//        request.put("credit_card_cvv", isracardRequest.getCreditCardCVV());
-//        request.put("credit_card_exp", isracardRequest.getCreditCardExp());
-//        request.put("credit_card_number", isracardRequest.getCreditCardNumber());
-//        request.put("installments", isracardRequest.getInstallments());
-//        request.put("buyer_social_id", isracardRequest.getBuyerSocialID());
+    }
 
-        return api.paySale(CONTENT_TYPE, request);
+    public Observable<List<PBBransches>> pboffice(String address, String city) {
+
+
+
+        return api.pbiffice(address,city);
     }
 }
