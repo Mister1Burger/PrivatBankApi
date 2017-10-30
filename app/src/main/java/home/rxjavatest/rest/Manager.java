@@ -17,7 +17,7 @@ public class Manager {
 
     private Retrofit retrofitInstance;
 
-    private Service payService;
+    private Service branches;
 
     public Manager() {
 
@@ -39,11 +39,11 @@ public class Manager {
         return retrofitInstance;
     }
 
-    public Service getPayService() {
+    public Service getBranches() {
 
-        if (payService == null) {
-            payService = new Service(retrofitInstance.create(Api.class));
+        if (branches == null) {
+            branches = new Service(retrofitInstance.create(Api.class));
         }
-        return payService;
+        return branches;
     }
 }

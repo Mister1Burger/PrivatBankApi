@@ -1,9 +1,7 @@
 package home.rxjavatest.rest;
 
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.Observable;
 
@@ -18,9 +16,7 @@ public class Service {
         this.api = api;
     }
 
-    public void getAddress(){
 
-    }
 
     public Observable<List<PBBransches>> pboffice(String address, String city) {
 

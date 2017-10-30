@@ -3,6 +3,7 @@ package home.rxjavatest.rest;
 
 import com.google.gson.annotations.SerializedName;
 
+import home.rxjavatest.BranchListner;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PBBransches {
+public class PBBransches implements BranchListner{
 
     @SerializedName("name")
     String name;
@@ -38,8 +39,16 @@ public class PBBransches {
     String address;
 
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    @Override
+    public void getBranc(PBBransches bransch) {
 
-
+    }
 }

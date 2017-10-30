@@ -12,17 +12,20 @@ import android.util.Log;
 import android.util.LruCache;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import home.rxjavatest.rest.Manager;
-import home.rxjavatest.rest.PBBransches;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -33,6 +36,16 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R2.id.toolbar)
     Toolbar toolbar;
+    @BindView(R2.id.et_city)
+    EditText et_city;
+    @BindView(R2.id.et_address)
+    EditText et_address;
+    @BindView(R2.id.button_search)
+    Button search_btn;
+    @BindView(R2.id.listV)
+    GridView grid_list;
+    BranchFragment fragment;
+    BranchListner listner;
 
     private LruCache<String, BitmapDescriptor> cache;
 
@@ -46,20 +59,11 @@ public class MainActivity extends AppCompatActivity {
 //        initCache();
 //        isAccessPermissions();
 
-        Manager manager = new Manager();
 
-        manager.getPayService().pboffice("Тл", "Днепр")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(pbBransches -> {Log.d("TAG", pbBransches.toString());
-                        },
-                        throwable -> {
-                        }
-                );
 
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        PBBransches response = gson.fromJson("", PBBransches.class);
+//        GsonBuilder builder = new GsonBuilder();
+//        Gson gson = builder.create();
+//        PBBransches response = gson.fromJson("", PBBransches.class);
     }
 
     public void isAccessPermissions() {
@@ -124,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+
     }
 
     @Override
@@ -140,4 +145,72 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        search_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String address = et_address.getText().toString();
+                if (address.length() == 0) {
+                    Toast toast = Toast.makeText(getBaseContext(),
+                            "Enter the Address", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
+
+                    et_address.setText(null);
+
+                }
+                String city = et_city.getText().toString();
+                if (city.length() == 0) {
+                    Toast toast = Toast.makeText(getBaseContext(),
+                            "Enter the City", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
+
+                    et_city.setText(null);
+
+                }
+                FindBranches(address,city);
+            }
+        });
+    }
+
+    public  FindBranches (String address, String city){
+        Manager manager = new Manager();
+
+
+        manager.getBranches().pboffice(address, city)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(pbBransches -> grid_list.setAdapter(new PBBranchesAdapter(this,pbBransches)))
+                .flatMap(Observable::fromIterable)
+                .doOnNext(pbBrannsch -> listner.setBransch(pbBrannsch))
+                .doOnNext(listner -> fragment = new BranchFragment(listner))
+                .doOnNext(gridviewOnItemClickListener -> grid_list.setOnItemClickListener(gridviewOnItemClickListener))
+                .toList()
+                .toObservable()
+                .subscribe(pbBransches -> {Log.d("TAG", pbBransches.toString());
+                        },
+                        throwable -> {
+                        }
+                );
+
+    }
+
+    private GridView.OnItemClickListener gridviewOnItemClickListener = new GridView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+            getFragmentManager().beginTransaction()
+                    .add(R.id.fragment,fragment,"TAG")
+                    .commit();
+
+
+
+
+
+
+        }
+    };
 }
