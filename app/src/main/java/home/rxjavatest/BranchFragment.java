@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import home.rxjavatest.rest.PBBransches;
 
 /**
@@ -36,13 +37,15 @@ public class BranchFragment extends Fragment {
     TextView tv_phone;
     @BindView(R.id.tv_state)
     TextView tv_state;
-    PBBransches bransch;
+    BranchListner listner;
+
 
     public BranchFragment() {
     }
 
-    public BranchFragment(PBBransches bransch) {
-        this.bransch = bransch;
+    public BranchFragment(BranchListner listner) {
+        this.listner = listner;
+        ;
     }
 
 
@@ -50,22 +53,22 @@ public class BranchFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-
+        ButterKnife.bind(getActivity());
         return inflater.inflate(R.layout.fragment_branch,container,false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        tv_address.setText(bransch.getAddress());
-        tv_city.setText(bransch.getCity());
-        tv_country.setText(bransch.getCountry());
-        tv_email.setText(bransch.getEmail());
-        tv_id.setText(String.valueOf(bransch.getId()));
-        tv_index.setText(String.valueOf(bransch.getIndex()));
-        tv_name.setText(bransch.getName());
-        tv_phone.setText(bransch.getPhone());
-        tv_state.setText(bransch.getState());
+        tv_address.setText(listner.getPbBransch().getAddress());
+        tv_city.setText(listner.getPbBransch().getCity());
+        tv_country.setText(listner.getPbBransch().getCountry());
+        tv_email.setText(listner.getPbBransch().getEmail());
+        tv_id.setText(String.valueOf(listner.getPbBransch().getId()));
+        tv_index.setText(String.valueOf(listner.getPbBransch().getIndex()));
+        tv_name.setText(listner.getPbBransch().getName());
+        tv_phone.setText(listner.getPbBransch().getPhone());
+        tv_state.setText(listner.getPbBransch().getState());
 
 
 

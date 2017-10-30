@@ -17,7 +17,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PBBransches implements BranchListner{
+public class PBBransches {
 
     @SerializedName("name")
     String name;
@@ -47,8 +47,5 @@ public class PBBransches implements BranchListner{
         this.name = name;
     }
 
-    @Override
-    public void getBranc(PBBransches bransch) {
 
-    }
 }

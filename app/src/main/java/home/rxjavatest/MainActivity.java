@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public  FindBranches (String address, String city){
+    public void FindBranches (String address, String city){
         Manager manager = new Manager();
 
 
@@ -186,9 +186,7 @@ public class MainActivity extends AppCompatActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(pbBransches -> grid_list.setAdapter(new PBBranchesAdapter(this,pbBransches)))
                 .flatMap(Observable::fromIterable)
-                .doOnNext(pbBrannsch -> listner.setBransch(pbBrannsch))
-                .doOnNext(listner -> fragment = new BranchFragment(listner))
-                .doOnNext(gridviewOnItemClickListener -> grid_list.setOnItemClickListener(gridviewOnItemClickListener))
+                .doOnNext(pbBransches -> listner = new BranchListner(pbBransches))
                 .toList()
                 .toObservable()
                 .subscribe(pbBransches -> {Log.d("TAG", pbBransches.toString());
@@ -203,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.fragment,fragment,"TAG")
+                    .add(R.id.fragment, new BranchFragment(listner))
                     .commit();
 
 
