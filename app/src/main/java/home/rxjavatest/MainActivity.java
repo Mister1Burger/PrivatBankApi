@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+
 //        initCache();
 //        isAccessPermissions();
 
@@ -173,11 +174,28 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 FindBranches(address,city);
+                GridView.OnItemClickListener gridviewOnItemClickListener = new GridView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                        getFragmentManager().beginTransaction()
+                                .add(R.id.fragment, new BranchFragment(FindBranches(address,city)))
+                                .commit();
+
+
+
+
+
+
+                    }
+                };
+                grid_list.setOnItemClickListener(gridviewOnItemClickListener);
+
             }
         });
+
     }
 
-    public void FindBranches (String address, String city){
+    public BranchListner FindBranches (String address, String city){
         Manager manager = new Manager();
 
 
@@ -195,20 +213,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                 );
 
+        return listner;
+
+
     }
 
-    private GridView.OnItemClickListener gridviewOnItemClickListener = new GridView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.fragment, new BranchFragment(listner))
-                    .commit();
 
-
-
-
-
-
-        }
-    };
 }
