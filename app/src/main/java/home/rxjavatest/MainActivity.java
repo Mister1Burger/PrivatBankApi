@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.LruCache;
@@ -17,15 +19,19 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ListAdapter;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import home.rxjavatest.rest.Manager;
+import home.rxjavatest.rest.PBBransches;
 import io.reactivex.Observable;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -43,11 +49,16 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R2.id.button_search)
     Button search_btn;
     @BindView(R2.id.listV)
-    GridView grid_list;
+    RecyclerView grid_list;
     BranchFragment fragment;
     BranchListner listner;
+    List<PBBransches> pbBransches;
+    AdapterList adapter;
+    PBBransches bransch;
 
-    private LruCache<String, BitmapDescriptor> cache;
+    public PBBransches getBransch() {
+        return bransch;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +67,18 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        grid_list.setLayoutManager(llm);
+        adapter = new AdapterList(new ArrayList<PBBransches>(), bransch -> { this.bransch = bransch;
+            getFragmentManager().beginTransaction()
+                    .add(R.id.fragment, new BranchFragment())
+                    .commit();
+            Log.d("TAG",bransch.toString());
+        });
+        grid_list.setAdapter(adapter);
 
 //        initCache();
 //        isAccessPermissions();
-
 
 
 //        GsonBuilder builder = new GsonBuilder();
@@ -91,22 +110,6 @@ public class MainActivity extends AppCompatActivity {
         else
             Toast.makeText(this, "not permission", Toast.LENGTH_LONG).show();
 
-    }
-
-
-    private void initCache() {
-        //Use 1/8 of available memory
-        cache = new LruCache<>((int) (Runtime.getRuntime().maxMemory() / 1024 / 8));
-    }
-
-    public BitmapDescriptor getBitmapDescriptor(int id) {
-        BitmapDescriptor result = cache.get(String.valueOf(id));
-        if (result == null) {
-            result = BitmapDescriptorFactory.fromResource(id);
-            cache.put(String.valueOf(id), result);
-        }
-
-        return result;
     }
 
     @Override
@@ -150,72 +153,50 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        search_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String address = et_address.getText().toString();
-                if (address.length() == 0) {
-                    Toast toast = Toast.makeText(getBaseContext(),
-                            "Enter the Address", Toast.LENGTH_SHORT);
-                    toast.show();
-                } else {
+        search_btn.setOnClickListener(view -> {
+            String address = et_address.getText().toString();
+            if (address.length() == 0) {
+                Toast toast = Toast.makeText(getBaseContext(),
+                        "Enter the Address", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
 
-                    et_address.setText(null);
-
-                }
-                String city = et_city.getText().toString();
-                if (city.length() == 0) {
-                    Toast toast = Toast.makeText(getBaseContext(),
-                            "Enter the City", Toast.LENGTH_SHORT);
-                    toast.show();
-                } else {
-
-                    et_city.setText(null);
-
-                }
-                FindBranches(address,city);
-                GridView.OnItemClickListener gridviewOnItemClickListener = new GridView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                        getFragmentManager().beginTransaction()
-                                .add(R.id.fragment, new BranchFragment(FindBranches(address,city)))
-                                .commit();
-
-
-
-
-
-
-                    }
-                };
-                grid_list.setOnItemClickListener(gridviewOnItemClickListener);
+                et_address.setText(null);
 
             }
+            String city = et_city.getText().toString();
+            if (city.length() == 0) {
+                Toast toast = Toast.makeText(getBaseContext(),
+                        "Enter the City", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+
+                et_city.setText(null);
+
+            }
+            findBranches(address, city);
+
+
         });
 
     }
 
-    public BranchListner FindBranches (String address, String city){
+    public void findBranches(String address, String city) {
         Manager manager = new Manager();
-
-
         manager.getBranches().pboffice(address, city)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(pbBransches -> grid_list.setAdapter(new PBBranchesAdapter(this,pbBransches)))
+                .doOnNext(pbBransches1 -> adapter.clear())
                 .flatMap(Observable::fromIterable)
-                .doOnNext(pbBransches -> listner = new BranchListner(pbBransches))
+                .doOnNext(bransches -> adapter.addBranch(bransches))
                 .toList()
                 .toObservable()
-                .subscribe(pbBransches -> {Log.d("TAG", pbBransches.toString());
+                .subscribe(pbBransches -> {
+                            Log.d("TAG", pbBransches.toString());
                         },
                         throwable -> {
                         }
                 );
-
-        return listner;
-
-
     }
 
 

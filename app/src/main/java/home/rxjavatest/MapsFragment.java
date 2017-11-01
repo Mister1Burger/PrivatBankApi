@@ -75,15 +75,15 @@ public class MapsFragment extends Fragment {
         return mapFragmentView;
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        activity = (MainActivity) getActivity();
-
-        currentLocationRX = new CurrentLocationRX(activity, location -> plotMarker1(location.getLatitude(), location.getLongitude()));
-
-    }
+//    @Override
+//    public void onViewCreated(View view, Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//
+//        activity = (MainActivity) getActivity();
+//
+//        currentLocationRX = new CurrentLocationRX(activity, location -> plotMarker1(location.getLatitude(), location.getLongitude()));
+//
+//    }
 
     private void initGoogleMap() {
 
@@ -98,34 +98,34 @@ public class MapsFragment extends Fragment {
     }
 
 
-    public void plotMarker1(double lat, double lon) {
+//    public void plotMarker1(double lat, double lon) {
+//
+//        if (lat != 0 && lon != 0) {
+//
+//            if (myMarkerMap != null)
+//                myMarkerMap.remove();
+//
+//            MarkerOptions usMarker = new MarkerOptions().position(
+//                    new LatLng(lat, lon)).title("I").anchor(Float.parseFloat("0.5"), Float.parseFloat("0.5"));
+//            usMarker.icon(activity.getBitmapDescriptor(R.drawable.marker_1));
+//            myMarkerMap = googleMap.addMarker(usMarker);
+//            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,
+//                    lon), zoom));
+//          //  plotMarker2(lat, lon);
+//        }
+//    }
 
-        if (lat != 0 && lon != 0) {
-
-            if (myMarkerMap != null)
-                myMarkerMap.remove();
-
-            MarkerOptions usMarker = new MarkerOptions().position(
-                    new LatLng(lat, lon)).title("I").anchor(Float.parseFloat("0.5"), Float.parseFloat("0.5"));
-            usMarker.icon(activity.getBitmapDescriptor(R.drawable.marker_1));
-            myMarkerMap = googleMap.addMarker(usMarker);
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,
-                    lon), zoom));
-          //  plotMarker2(lat, lon);
-        }
-    }
-
-    public void plotMarker2(double lat, double lon) {
-
-        LatLng latLng = new LatLng(48.4506, 32.0505);
-        if (latLng.latitude != 0 && latLng.longitude != 0) {
-            MarkerOptions markerOption = new MarkerOptions().position(latLng).title("name");
-            markerOption.icon(activity.getBitmapDescriptor(R.drawable.marker_2));
-            googleMap.addMarker(markerOption);
-            track(latLng, lat, lon);
-        }
-
-    }
+//    public void plotMarker2(double lat, double lon) {
+//
+//        LatLng latLng = new LatLng(48.4506, 32.0505);
+//        if (latLng.latitude != 0 && latLng.longitude != 0) {
+//            MarkerOptions markerOption = new MarkerOptions().position(latLng).title("name");
+//            markerOption.icon(activity.getBitmapDescriptor(R.drawable.marker_2));
+//            googleMap.addMarker(markerOption);
+//            track(latLng, lat, lon);
+//        }
+//
+//    }
 
     private void track(LatLng end, double lat, double lon) {
 

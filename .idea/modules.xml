@@ -3,9 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PrivatBankApi.iml" filepath="$PROJECT_DIR$/PrivatBankApi.iml" />
-      <module fileurl="file://C:/Users/java/StudioProjects/PrivatBankApi/RxJavaTest.iml" filepath="C:/Users/java/StudioProjects/PrivatBankApi/RxJavaTest.iml" />
+      <module fileurl="file://C:\Users\Java\StudioProjects\PrivatBankApi\RxJavaTest.iml" filepath="C:\Users\Java\StudioProjects\PrivatBankApi\RxJavaTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:/Users/java/StudioProjects/PrivatBankApi/test.iml" filepath="C:/Users/java/StudioProjects/PrivatBankApi/test.iml" />
+      <module fileurl="file://C:\Users\Java\StudioProjects\PrivatBankApi\test.iml" filepath="C:\Users\Java\StudioProjects\PrivatBankApi\test.iml" />
     </modules>
   </component>
 </project>
