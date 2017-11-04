@@ -11,17 +11,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.LruCache;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.ListAdapter;
 import android.widget.Toast;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +25,6 @@ import butterknife.ButterKnife;
 import home.rxjavatest.rest.Manager;
 import home.rxjavatest.rest.PBBransches;
 import io.reactivex.Observable;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -70,9 +63,9 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         grid_list.setLayoutManager(llm);
         adapter = new AdapterList(new ArrayList<PBBransches>(), bransch -> { this.bransch = bransch;
-            getFragmentManager().beginTransaction()
-                    .add(R.id.fragment, new BranchFragment())
-                    .commit();
+            Intent intent = new Intent(MainActivity.this, BranchActivity.class);
+            intent.putExtra("Branch",bransch );
+            startActivity(intent);
             Log.d("TAG",bransch.toString());
         });
         grid_list.setAdapter(adapter);

@@ -39,6 +39,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".BranchActivity"
+            android:label="@string/branch_activity">
+        </activity>
 
         <service android:name=".NotificationService" />
 

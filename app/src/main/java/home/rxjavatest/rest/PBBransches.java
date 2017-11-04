@@ -1,9 +1,11 @@
 package home.rxjavatest.rest;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-import home.rxjavatest.BranchListner;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +19,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PBBransches {
+public class PBBransches implements Parcelable {
 
     @SerializedName("name")
     String name;
@@ -48,4 +50,29 @@ public class PBBransches {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
+    }
+     public static Parcelable.ClassLoaderCreator<PBBransches> CREATOR = new ClassLoaderCreator<PBBransches>() {
+         @Override
+         public PBBransches createFromParcel(Parcel parcel, ClassLoader classLoader) {
+             return null;
+         }
+
+         @Override
+         public PBBransches createFromParcel(Parcel parcel) {
+             return null;
+         }
+
+         @Override
+         public PBBransches[] newArray(int i) {
+             return new PBBransches[0];
+         }
+     };
 }
