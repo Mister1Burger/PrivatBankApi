@@ -40,7 +40,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".BranchActivity"
-            android:label="@string/branch_activity">
+            android:label="@string/branch_activity"
+            android:theme="@android:style/Theme.Dialog"
+            >
+
         </activity>
 
         <service android:name=".NotificationService" />

@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     Button search_btn;
     @BindView(R2.id.listV)
     RecyclerView grid_list;
+    Gson gson;
     AdapterList adapter;
     PBBransches bransch;
 
@@ -51,13 +54,13 @@ public class MainActivity extends AppCompatActivity {
         grid_list.setLayoutManager(llm);
         adapter = new AdapterList(new ArrayList<PBBransches>(), bransch -> { this.bransch = bransch;
             Intent intent = new Intent(MainActivity.this, BranchActivity.class);
-            intent.putExtra("Branch",bransch );
+            intent.putExtra("Branch",bransch.toString() );
             startActivity(intent);
             Log.d("TAG",bransch.toString());
         });
         grid_list.setAdapter(adapter);
 
-       //PBBransches response = gson.fromJson("", PBBransches.class);
+      // PBBransches response = gson.fromJson("", PBBransches.class);
     }
 
     @Override

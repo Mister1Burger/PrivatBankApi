@@ -19,7 +19,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PBBransches implements Parcelable {
+public class PBBransches  {
 
     @SerializedName("name")
     String name;
@@ -49,30 +49,18 @@ public class PBBransches implements Parcelable {
         this.name = name;
     }
 
-
     @Override
-    public int describeContents() {
-        return 0;
+    public String toString() {
+        return "{" +
+                "\"" + "name"+"\"" + ":"+"\"" + name + "\"" + ", " +
+                "\"" + "state"+"\"" + ":"+"\"" + state + "\"" +", " +
+                "\"" + "id"+"\"" + ":"+"\"" + id + "\"" +", " +
+                "\"" + "country"+"\"" + ":"+"\"" + country + "\"" +", " +
+                "\"" + "city"+"\"" + ":"+"\"" + city + "\"" +", " +
+                "\"" + "index"+"\"" + ":"+"\"" + index + "\"" +", " +
+                "\"" + "phone"+"\"" + ":"+"\"" + phone + "\"" +", " +
+                "\"" + "email"+"\"" + ":"+"\"" + email + "\"" +", " +
+                "\"" + "address"+"\"" + ":"+"\"" + address + "\"" +
+                '}';
     }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-
-    }
-     public static Parcelable.ClassLoaderCreator<PBBransches> CREATOR = new ClassLoaderCreator<PBBransches>() {
-         @Override
-         public PBBransches createFromParcel(Parcel parcel, ClassLoader classLoader) {
-             return null;
-         }
-
-         @Override
-         public PBBransches createFromParcel(Parcel parcel) {
-             return null;
-         }
-
-         @Override
-         public PBBransches[] newArray(int i) {
-             return new PBBransches[0];
-         }
-     };
 }
